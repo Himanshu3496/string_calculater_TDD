@@ -38,4 +38,22 @@ def add(numbers: str) -> int:
     parts = re.split(delimiter, numbers)
     return sum(int(p) for p in parts if p)
 
-print(add("//;\n1;2"))
+def add(numbers: str) -> int:
+    import re
+    if not numbers:
+        return 0
+
+    delimiter = ",|\n"
+    if numbers.startswith("//"):
+        delimiter_line, numbers = numbers.split("\n", 1)
+        delimiter = re.escape(delimiter_line[2:])
+
+    parts = re.split(delimiter, numbers)
+    nums = [int(p) for p in parts if p]
+    negatives = [n for n in nums if n < 0]
+
+    if negatives:
+        raise Exception(f"negative numbers not allowed: {','.join(map(str, negatives))}")
+
+    return sum(nums)
+
